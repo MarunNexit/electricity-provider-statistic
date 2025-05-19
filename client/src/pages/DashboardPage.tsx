@@ -10,7 +10,7 @@ import CustomMap from '../components/map/CustomMap.tsx'
 import AveragePricesForwardChart from "../components/charts/AveragePricesForwardChart.tsx";
 import ProvidersRatingsChart from "../components/charts/ProvidersRatingsChart.tsx";
 import ProviderStatsTable from "../components/table/ProviderStatsTable.tsx";
-import PieChartProviderGroups from "../components/charts/PieChartProviderGroups.tsx";
+import PieChartProviderGroups from "../components/charts/PieChart/PieChartProviderGroups.tsx";
 import ProvidersUsersChart from "../components/charts/ProvidersUsersChart.tsx";
 import {useSelector} from "react-redux";
 const data: StatCardProps[] = [

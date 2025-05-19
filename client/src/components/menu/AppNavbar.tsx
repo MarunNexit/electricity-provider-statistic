@@ -60,9 +60,7 @@ export default function AppNavbar() {
                     }}
                 >
                     <Logo full={true} center={false} bigIcon={false} bigText={false} row={true}></Logo>
-{/*
-                    <ColorModeIconDropdown />
-*/}
+
                     <MenuButton aria-label="menu" onClick={toggleDrawer(true)}>
                         <MenuRoundedIcon />
                     </MenuButton>

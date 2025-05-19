@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { TextField, Container, Alert, Box } from "@mui/material";
 import Typography from "@mui/material/Typography";
-import RegisterPageButton from "../components/button/NotRegisteredButton.tsx";
+import RegisterPageButton from "../components/button/RegisterPageButton.tsx";
 import LoginButton from "../components/button/LoginButton.tsx";
 import {loginAsync} from "../store/authSlice.ts";
 import {useAppDispatch} from "../store";

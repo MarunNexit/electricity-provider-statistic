@@ -7,7 +7,6 @@ import {useEffect} from "react";
 import {useDispatch} from "react-redux";
 import { resetSidebarCollapsed } from '../../store/uiSlice';
 import {useAppSelector} from "../../store";
-import LogoutButton from "../button/LogoutButton.tsx";
 import Logout from "../profile/profile/Logout.tsx";
 
 interface SideMenuMobileProps {

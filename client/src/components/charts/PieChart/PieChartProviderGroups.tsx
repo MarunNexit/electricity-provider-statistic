@@ -5,13 +5,11 @@ import { useDrawingArea } from '@mui/x-charts/hooks';
 import { styled } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
 import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
 import Box from '@mui/material/Box';
-import Stack from '@mui/material/Stack';
-import LinearProgress, { linearProgressClasses } from '@mui/material/LinearProgress';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
-import {getMarketSharePieWithYear} from "../../utils/services/dataAnalyticsService.ts";
+import {getMarketSharePieWithYear} from "../../../utils/services/dataAnalyticsService.ts";
+import ProviderGroupsList from "./ProviderGroupsList.tsx";
 
 
 interface GroupProvider {
@@ -99,18 +97,19 @@ export default function PieChartProviderGroups() {
     const [groups, setGroups] = useState<Group[]>([]);
     const [loading, setLoading] = useState<boolean>(false);
     const availableYears = [2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024]
+    const [selectedGroup, setSelectedGroup] = useState<string | null>(null);
 
     useEffect(() => {
         async function fetchData() {
             setLoading(true);
             try {
                 const response: ApiResponse = await getMarketSharePieWithYear(year);
-
                 setGroups(response.$values.map(group => ({
                     groupName: group.groupName,
                     share: group.share,
                     providers: group.providers.$values.map((p: any) => ({ name: p.name, share: p.share })),
                 })));
+
             } catch (e) {
                 console.error(e);
                 setGroups([]);
@@ -122,6 +121,14 @@ export default function PieChartProviderGroups() {
 
     }, [year]);
 
+
+    useEffect(() => {
+        if(groups.length > 0){
+            setSelectedGroup(groups[0].groupName);
+        }
+    }, [groups]);
+
+
     const pieData = groups.map(group => ({
         label: group.groupName,
         value: group.share,
@@ -130,9 +137,9 @@ export default function PieChartProviderGroups() {
     const colors = ['hsl(220, 25%, 65%)', 'hsl(220, 25%, 45%)', 'hsl(220, 25%, 30%)', 'hsl(220, 25%, 20%)'];
 
     const topGroup = useMemo(() => {
-        if (groups.length === 0) return null;
-        return groups.reduce((max, group) => group.share > max.share ? group : max, groups[0]);
-    }, [groups]);
+        if (!selectedGroup || groups.length === 0) return null;
+        return groups.find(group => group.groupName === selectedGroup) || null;
+    }, [selectedGroup, groups]);
 
 
     return (
@@ -179,22 +186,13 @@ export default function PieChartProviderGroups() {
                 </PieChart>
             </Box>
 
-            {groups.map((group, i) => (
-                <Box key={i} sx={{ mb: 3 }}>
-                    <Typography variant="subtitle1" sx={{ mb: 1 }}>
-                        {group.groupName} — {group.share.toFixed(2)}%
-                    </Typography>
+            <ProviderGroupsList
+                groups={groups}
+                selectedGroupName={selectedGroup}
+                onSelectGroup={(name) => setSelectedGroup(name)}
+            />
 
-                    {group.providers.map((provider, j) => (
-                        <Stack key={j} direction="row" sx={{ justifyContent: 'space-between', mb: 0.5 }}>
-                            <Typography variant="body2">{provider.name}</Typography>
-                            <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-                                {provider.share.toFixed(2)}%
-                            </Typography>
-                        </Stack>
-                    ))}
-                </Box>
-            ))}
         </Card>
     );
 }
+

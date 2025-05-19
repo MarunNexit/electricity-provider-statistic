@@ -2,8 +2,6 @@ import React from 'react';
 import MainButton from "./MainButton.tsx";
 import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded";
 import Button from "@mui/material/Button";
-import ListItemText from "@mui/material/ListItemText";
-import ListItemIcon, {listItemIconClasses} from "@mui/material/ListItemIcon";
 import Typography from "@mui/material/Typography";
 
 const logoutVariants: Record<string, React.ReactNode> = {
@@ -51,3 +49,4 @@ const LogoutButton: React.FC<LogoutButtonProps> = ({version = 'full'}: LogoutBut
 };
 
 export default LogoutButton;
+
